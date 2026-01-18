@@ -657,7 +657,7 @@ const HomePage = () => {
                   display: 'inline-block',
                   fontWeight: '800'
                 }}>
-                  Why thousands of women trust Milady
+                  Why thousands of women trust LoveYou
                 </h2>
                 <p className="text-body-lg text-emphasized">
                   Join a community of empowered women taking control of their reproductive health 

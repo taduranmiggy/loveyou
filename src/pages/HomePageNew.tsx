@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight,
   PlayCircle,
   CheckCircle,
-  Star,
   Users,
   TrendingUp,
   Shield,
@@ -16,8 +16,7 @@ import {
   Calendar,
   Bell,
   Sparkles,
-  Clock,
-  Lock
+  Clock
 } from 'lucide-react';
 import Button from '../components/Button';
 
@@ -29,7 +28,7 @@ const HomePage = () => {
 
   // Animate user counter
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       const interval = setInterval(() => {
         setUserCount(prev => {
           const target = 12847;
@@ -44,7 +43,7 @@ const HomePage = () => {
   }, []);
 
   // Animation variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -55,25 +54,25 @@ const HomePage = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.6,
-        ease: [0.645, 0.045, 0.355, 1]
+        ease: "easeOut" as const
       }
     }
   };
 
-  const floatVariants = {
+  const floatVariants: Variants = {
     animate: {
       y: [-10, 10, -10],
       transition: {
         duration: 4,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut" as const
       }
     }
   };
@@ -148,17 +147,13 @@ const HomePage = () => {
 
               {/* CTA Buttons */}
               <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <Button 
-                  variant="primary" 
-                  size="lg"
-                  className="group"
-                  asChild
+                <Link 
+                  to="/register"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-lg hover:shadow-xl group"
                 >
-                  <Link to="/register">
-                    Start Your Journey
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
+                  Start Your Journey
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
                 
                 <Button 
                   variant="secondary" 
@@ -522,28 +517,20 @@ const FinalCTASection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button 
-                variant="secondary" 
-                size="lg"
-                className="bg-white text-gray-900 hover:bg-gray-50 group"
-                asChild
+              <Link 
+                to="/register"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 hover:bg-gray-50 font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group"
               >
-                <Link to="/register">
-                  Begin Your Journey
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
+                Begin Your Journey
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
               
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-white text-white hover:bg-white/10"
-                asChild
+              <Link 
+                to="/login"
+                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white hover:bg-white/10 font-semibold rounded-xl transition-all duration-200"
               >
-                <Link to="/login">
-                  Welcome Back
-                </Link>
-              </Button>
+                Welcome Back
+              </Link>
             </div>
             
             <p className="text-white/70 text-sm">

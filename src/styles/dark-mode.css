@@ -1,0 +1,41 @@
+/* Dark Mode Overrides - Only when explicitly enabled */
+
+/* ONLY apply dark mode when the dark class is present */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important;
+  color: #f9fafb !important;
+}
+
+/* Dark backgrounds for components - ONLY in dark mode */
+html.dark .bg-white {
+  background-color: #1f2937 !important;
+}
+
+html.dark .bg-gray-50 {
+  background-color: #111827 !important;
+}
+
+html.dark .bg-gray-100 {
+  background-color: #1f2937 !important;
+}
+
+/* Pink backgrounds in dark mode */
+html.dark .bg-pink-50 {
+  background-color: #1f1825 !important;
+}
+
+html.dark .bg-pink-100 {
+  background-color: #2d1b33 !important;
+}
+
+html.dark .bg-rose-50 {
+  background-color: #1f1825 !important;
+}
+
+html.dark .bg-rose-100 {
+  background-color: #2d1b33 !important;
+}

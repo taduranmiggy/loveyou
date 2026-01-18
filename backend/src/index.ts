@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
@@ -31,7 +31,7 @@ app.use('/api/cycles', cycleRoutes);
 app.use('/api/reminders', reminderRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req: Request, res: Response) => {
   res.json({ 
     status: 'ok', 
     message: 'Milady API is running 💖',

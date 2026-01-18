@@ -53,7 +53,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 lg:pt-28">
       <div className="max-w-md mx-auto">
         <motion.div
           initial={{ y: 30, opacity: 0 }}

@@ -275,14 +275,24 @@
 
 /* Ensure text visibility */
 .text-visible {
-  color: #111827 !important;
-  opacity: 1 !important;
+  color: #111827;
+  opacity: 1;
+}
+
+.dark .text-visible {
+  color: #f9fafb;
+  opacity: 1;
 }
 
 /* High contrast text for accessibility */
 .text-high-contrast {
-  color: #000000 !important;
-  font-weight: 600 !important;
+  color: #000000;
+  font-weight: 600;
+}
+
+.dark .text-high-contrast {
+  color: #ffffff;
+  font-weight: 600;
 }
 
 /* Color Variants */
@@ -315,61 +325,22 @@
   }
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .heading-xl,
-  .heading-lg,
-  .heading-md,
-  .heading-sm {
-    color: #F9FAFB;
-  }
-  
-  .text-body-xl,
-  .text-body-lg {
-    color: #D1D5DB;
-  }
-  
-  .text-body-md,
-  .text-body-sm {
-    color: #9CA3AF;
-  }
-  
-  .text-emphasized {
-    color: #F9FAFB;
-  }
-}
+/* Light Mode Only - Clean Typography System */
 
-/* High Contrast Text Utilities for Better Visibility */
-.text-high-contrast {
-  color: #111827 !important;
-}
-
+/* Additional text utilities */
 .text-medium-contrast {
-  color: #1F2937 !important;
+  color: #1F2937;
 }
 
 .text-visible {
-  color: #111827 !important;
+  color: #111827;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Override any conflicting styles */
-.force-dark-text {
-  color: #111827 !important;
-  background-color: transparent !important;
-}
-
-/* Specific overrides for better visibility */
-.bg-pink-50 .text-gray-600,
-.bg-rose-50 .text-gray-600,
-.bg-purple-50 .text-gray-600 {
-  color: #111827 !important;
-}
-
-.bg-pink-100 .text-gray-700,
-.bg-rose-100 .text-gray-700,
-.bg-purple-100 .text-gray-700 {
-  color: #111827 !important;
+.force-light-text {
+  color: #111827;
+  background-color: transparent;
 }
 
 /* Light background text enforcement */
@@ -380,19 +351,5 @@
 .bg-pink-100 p,
 .bg-rose-100 p,
 .bg-purple-100 p {
-  color: #111827 !important;
-}
-
-.bg-white .text-body-md,
-.bg-pink-50 .text-body-md,
-.bg-rose-50 .text-body-md,
-.bg-purple-50 .text-body-md {
-  color: #111827 !important;
-}
-
-.bg-white .text-body-lg,
-.bg-pink-50 .text-body-lg,
-.bg-rose-50 .text-body-lg,
-.bg-purple-50 .text-body-lg {
-  color: #111827 !important;
+  color: #111827;
 }

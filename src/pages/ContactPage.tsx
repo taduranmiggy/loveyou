@@ -57,7 +57,7 @@ const ContactPage = () => {
       icon: Mail,
       title: 'Email Support',
       description: 'Get help from our friendly support team',
-      contact: 'support@milady-app.com',
+      contact: 'support@loveyou-app.com',
       color: 'text-pink-500',
       bgColor: 'bg-pink-50'
     },
@@ -90,10 +90,10 @@ const ContactPage = () => {
     },
     {
       question: 'Do you support different types of contraceptives?',
-      answer: 'Yes, Milady supports tracking for combination pills, progestin-only pills, patches, rings, and more.'
+      answer: 'Yes, LoveYou supports tracking for combination pills, progestin-only pills, patches, rings, and more.'
     },
     {
-      question: 'Is Milady free to use?',
+      question: 'Is LoveYou free to use?',
       answer: 'Yes! Our core features are completely free. We offer premium features for users who want advanced analytics and insights.'
     }
   ];
@@ -114,7 +114,7 @@ const ContactPage = () => {
             </h2>
             <p className="text-gray-600 mb-6">
               We've received your message and will get back to you within 24 hours. 
-              Your journey with Milady is important to us!
+              Your journey with LoveYou is important to us!
             </p>
             <button
               onClick={() => {
@@ -155,7 +155,7 @@ const ContactPage = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Have questions about Milady? Need support with your account? Or just want to say hello? 
+                Have questions about LoveYou? Need support with your account? Or just want to say hello? 
                 We'd love to hear from you!
               </p>
             </motion.div>
@@ -362,7 +362,7 @@ const ContactPage = () => {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Quick answers to common questions about Milady.
+              Quick answers to common questions about LoveYou.
             </p>
           </motion.div>
 

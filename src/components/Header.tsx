@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, Home, Info, Mail, Activity, LogOut, User, Layers } from 'lucide-react';
+import { Calendar, Home, Info, Mail, Activity, LogOut, User, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Navigation from './Navigation';
 import Button from './Button';
@@ -32,9 +32,9 @@ const Header = () => {
       },
     ] : []),
     { 
-      label: 'Components', 
-      href: '/components', 
-      icon: <Layers className="w-4 h-4" /> 
+      label: 'Services', 
+      href: '/services', 
+      icon: <Heart className="w-4 h-4" /> 
     },
     { 
       label: 'About', 
@@ -59,21 +59,26 @@ const Header = () => {
         <div className="absolute -top-1 -right-1 w-3 h-3 bg-rose-400 rounded-full animate-pulse"></div>
       </div>
       <span className="text-xl font-bold text-gradient-primary">
-        Milady
+        LoveYou
       </span>
-      <span className="text-xs text-pink-600 hidden sm:block">for Diane 💕</span>
+
     </Link>
   );
 
   const actions = (
     <>
       {user ? (
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-2 bg-pink-50 rounded-full">
-            <User className="w-4 h-4 text-pink-600" />
-            <span className="text-sm font-medium text-pink-800">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-2 bg-pink-50 rounded-full max-w-48">
+            <User className="w-4 h-4 text-pink-600 flex-shrink-0" />
+            <span className="text-sm font-medium text-pink-800 truncate">
               {user.name || user.email}
             </span>
+          </div>
+          
+          {/* Mobile: Show only user icon */}
+          <div className="sm:hidden flex items-center justify-center w-10 h-10 bg-pink-50 rounded-full">
+            <User className="w-4 h-4 text-pink-600" />
           </div>
           
           <Button
@@ -82,8 +87,8 @@ const Header = () => {
             onClick={handleLogout}
             className="group"
           >
-            <LogOut className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-            Logout
+            <LogOut className="w-4 h-4 mr-0 sm:mr-2 group-hover:translate-x-1 transition-transform" />
+            <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
       ) : (

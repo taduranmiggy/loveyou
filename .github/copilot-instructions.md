@@ -2,63 +2,49 @@
 
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
 
-## Project Overview
-This is a React-based contraceptive pill tracker with a pink, cutesy fashion-style UI. The application helps users track their pill intake and menstrual cycles with beautiful animations and a user-friendly interface.
+This is a full-stack contraceptive pill tracker application with the following features:
 
-## Architecture
-- **Frontend**: React + TypeScript + Vite
-- **Styling**: TailwindCSS with custom pink/rose color palette
-- **Animations**: Framer Motion for smooth, cute animations
-- **Routing**: React Router for navigation
-- **Forms**: React Hook Form with Zod validation
-- **Icons**: Lucide React icons
-- **Backend**: Node.js + Express + MySQL + Sequelize
+## Tech Stack
+- **Frontend**: React with Vite, Tailwind CSS, Framer Motion
+- **Backend**: PHP with MySQL (XAMPP)
+- **Design**: Pink girly theme with capybara mascot
+- **Features**: Calendar tracking, pill scheduling, cute animations
 
-## Code Style Guidelines
-- Use TypeScript for all new components
-- Follow the pink/cutesy design theme with emojis and animations
-- Use Framer Motion for all animations
-- Prefer functional components with hooks
-- Use TailwindCSS utility classes for styling
-- Add cute emojis and friendly language in UI text
-- Use custom classes: `pink-gradient`, `rose-gradient`, `cute-shadow`
+## Project Structure
+- `src/components/` - React components
+- `backend/` - PHP API and database files
+- Theme: Pink, cute, girly design with capybara mascot
+- Responsive design with glass morphism effects
 
-## Color Palette
-- Primary: Pink (50-950 scale)
-- Secondary: Rose (50-950 scale)
-- Accent: Purple (for variety)
-- Background: Light pink gradients
-- Text: Gray scale
-
-## Component Patterns
-- All pages should use `motion.div` for animations
-- Use `initial`, `animate`, and `transition` props
-- Include cute decorative elements (hearts, sparkles, etc.)
-- Forms should have proper validation and cute styling
-- Use rounded corners (`rounded-xl`, `rounded-3xl`)
-- Add hover effects with `whileHover`
-
-## Backend Patterns
-- Use Sequelize models with proper TypeScript interfaces
-- Include comprehensive validation with Joi
-- Use JWT for authentication
-- Follow RESTful API conventions
-- Include proper error handling and logging
+## Key Features
+1. User authentication (login/register)
+2. Pill type selection (Diane, Althea, etc.)
+3. Calendar-based pill tracking
+4. Cute capybara mascot for motivation
+5. Streak tracking and statistics
+6. Rest day celebrations
+7. Pink color palette with animations
 
 ## Database Schema
-- Users table with authentication
-- UserProfile for onboarding data
-- PillType for different contraceptive types
-- UserPill for user's active pill regimen
-- PillIntake for tracking individual doses
-- MenstrualCycle for period tracking
+- `users` - User information and settings
+- `pill_types` - Available contraceptive pills
+- `pill_tracking` - Daily pill intake records
+- `reminders` - User notification preferences
+- `quotes` - Motivational messages
 
-## Features to Implement
-- User authentication (login/register)
-- Onboarding questionnaire
-- Interactive calendar with pill/cycle tracking
-- Cute animated reminders
-- Pill schedule management
-- Cycle prediction
-- Side effects tracking
-- Privacy-focused design
+## API Endpoints
+- POST /api/register - User registration
+- POST /api/login - User authentication
+- GET /api/user - Get user data
+- PUT /api/user - Update user settings
+- GET /api/calendar - Get calendar data
+- POST /api/track - Track pill intake
+- GET /api/pill-types - Get available pill types
+
+When working with this codebase:
+- Maintain the cute, girly aesthetic
+- Use pink color palette (#ec4899, #fce7f3, etc.)
+- Include capybara references and emojis
+- Follow the glass morphism design pattern
+- Keep animations smooth and playful
+- Ensure mobile responsiveness

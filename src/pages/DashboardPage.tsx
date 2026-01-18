@@ -1,13 +1,19 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useState } from 'react';
-import { Calendar, Pill, Heart, TrendingUp, CheckCircle2, AlertTriangle, Bell, Settings, User, Activity } from 'lucide-react';
+import { Calendar, Pill, Heart, TrendingUp, CheckCircle2, AlertTriangle, Bell, Settings, User, Activity, Brain } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotificationIntegration } from '../hooks/useNotificationIntegration';
 import Button from '../components/Button';
 
 const DashboardPage = () => {
   const shouldReduceMotion = useReducedMotion();
   const { user } = useAuth();
+  const { 
+    handlePillTaken: notifyPillTaken,
+    hasPermission: hasNotificationPermission,
+    needsPermission: needsNotificationPermission 
+  } = useNotificationIntegration();
   const [activeTab, setActiveTab] = useState('overview');
   const [tasks, setTasks] = useState([
     { id: 1, task: 'Take morning pill', completed: true, time: '8:00 AM' },
@@ -30,6 +36,8 @@ const DashboardPage = () => {
   // Handler functions for buttons
   const handlePillTaken = () => {
     setPillTaken(true);
+    // Integrate with notification system
+    notifyPillTaken();
     showToastNotification('🎉 Great job! Pill marked as taken. Your capybara friend is proud of you! 🌸');
   };
 
@@ -63,6 +71,9 @@ const DashboardPage = () => {
       case 'Mark Pill Taken':
         handlePillTaken();
         break;
+      case 'AI Insights':
+        navigate('/ai-insights');
+        break;
       case 'Log Symptoms':
         showToastNotification('📝 Opening symptom logging... (Feature coming soon)');
         break;
@@ -70,7 +81,7 @@ const DashboardPage = () => {
         navigate('/calendar');
         break;
       case 'Settings':
-        showToastNotification('⚙️ Opening settings... (Feature coming soon)');
+        navigate('/settings');
         break;
       default:
         break;
@@ -141,6 +152,7 @@ const DashboardPage = () => {
 
   const quickActions = [
     { label: 'Mark Pill Taken', icon: <Pill className="w-5 h-5" />, color: 'bg-green-500 hover:bg-green-600' },
+    { label: 'AI Insights', icon: <Brain className="w-5 h-5" />, color: 'bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600' },
     { label: 'Log Symptoms', icon: <Activity className="w-5 h-5" />, color: 'bg-purple-500 hover:bg-purple-600' },
     { label: 'View Calendar', icon: <Calendar className="w-5 h-5" />, color: 'bg-pink-500 hover:bg-pink-600' },
     { label: 'Settings', icon: <Settings className="w-5 h-5" />, color: 'bg-gray-500 hover:bg-gray-600' }
@@ -166,7 +178,7 @@ const DashboardPage = () => {
         initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
         animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="py-8 lg:py-12"
+        className="pt-20 pb-8 lg:pt-24 lg:pb-12"
         aria-labelledby="dashboard-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -175,7 +187,7 @@ const DashboardPage = () => {
             <motion.img 
               src="/welcomecapybara.png" 
               alt="Welcome capybara"
-              className="absolute -top-4 -right-4 w-20 h-20 opacity-70"
+              className="absolute top-0 -right-4 w-20 h-20 opacity-70"
               animate={shouldReduceMotion ? {} : { 
                 y: [-3, 3, -3],
                 rotate: [-2, 2, -2]
@@ -211,11 +223,20 @@ const DashboardPage = () => {
               <Button
                 variant="glass"
                 size="md"
-                className="p-3"
+                className={`p-3 relative ${
+                  needsNotificationPermission ? 'animate-pulse border-amber-300' : 
+                  hasNotificationPermission ? 'border-green-300' : 'border-red-300'
+                }`}
                 aria-label="Notifications"
                 onClick={handleToggleNotifications}
               >
                 <Bell className={`w-5 h-5 ${showNotifications ? 'text-pink-500' : ''}`} />
+                {needsNotificationPermission && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-500 rounded-full animate-ping" />
+                )}
+                {!hasNotificationPermission && !needsNotificationPermission && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
+                )}
               </Button>
             </div>
           </div>
@@ -328,7 +349,7 @@ const DashboardPage = () => {
                 {/* Quick Actions */}
                 <div className="mt-8 pt-6 border-t border-gray-200">
                   <h4 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h4>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {quickActions.map((action) => (
                       <motion.button
                         key={action.label}
@@ -364,6 +385,47 @@ const DashboardPage = () => {
                       </div>
                     ))}
                   </div>
+                </motion.div>
+
+                {/* AI Insights Preview */}
+                <motion.div
+                  initial={shouldReduceMotion ? {} : { opacity: 0, x: 20 }}
+                  animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.35 }}
+                  className="card"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">AI Insights</h3>
+                    <Brain className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg border border-pink-100">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-lg">🌟</span>
+                        <div>
+                          <p className="text-sm font-medium text-gray-800">Great consistency!</p>
+                          <p className="text-xs text-gray-600">You've taken 87% of your pills this month</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                      <div className="flex items-start space-x-2">
+                        <span className="text-lg">🗓️</span>
+                        <div>
+                          <p className="text-sm font-medium text-gray-800">Period prediction</p>
+                          <p className="text-xs text-gray-600">Expected in 6 days</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <motion.button
+                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+                    onClick={() => navigate('/ai-insights')}
+                    className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white text-sm font-medium rounded-xl transition-all"
+                  >
+                    View All Insights
+                  </motion.button>
                 </motion.div>
 
                 {/* Recent Activity */}
@@ -402,8 +464,65 @@ const DashboardPage = () => {
               initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="grid lg:grid-cols-2 gap-8"
+              className="space-y-8"
             >
+              {/* AI Health Insights - Full Width */}
+              <div className="card">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-semibold text-gray-900">AI Health Insights</h3>
+                  <Brain className="w-6 h-6 text-pink-500" />
+                </div>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100">
+                    <div className="flex items-start space-x-3">
+                      <span className="text-2xl">💊</span>
+                      <div>
+                        <h4 className="font-medium text-gray-800 mb-1">Adherence Pattern</h4>
+                        <p className="text-sm text-gray-600 mb-2">You tend to miss pills on weekends. Try setting weekend-specific reminders!</p>
+                        <button 
+                          onClick={() => navigate('/ai-insights')}
+                          className="text-xs bg-pink-500 text-white px-3 py-1 rounded-full hover:bg-pink-600 transition-colors"
+                        >
+                          Learn More
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
+                    <div className="flex items-start space-x-3">
+                      <span className="text-2xl">🌙</span>
+                      <div>
+                        <h4 className="font-medium text-gray-800 mb-1">Sleep & Wellness</h4>
+                        <p className="text-sm text-gray-600 mb-2">Getting more sleep could improve your hormone balance and energy levels.</p>
+                        <button 
+                          onClick={() => navigate('/ai-insights')}
+                          className="text-xs bg-purple-500 text-white px-3 py-1 rounded-full hover:bg-purple-600 transition-colors"
+                        >
+                          Get Tips
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                    <div className="flex items-start space-x-3">
+                      <span className="text-2xl">🌸</span>
+                      <div>
+                        <h4 className="font-medium text-gray-800 mb-1">Cycle Prediction</h4>
+                        <p className="text-sm text-gray-600 mb-2">Your cycle shows great regularity! Next period expected March 15th.</p>
+                        <button 
+                          onClick={() => navigate('/ai-insights')}
+                          className="text-xs bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition-colors"
+                        >
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Health Metrics Grid */}
+              <div className="grid lg:grid-cols-2 gap-8">
               {/* Health Metrics */}
               <div className="card">
                 <h3 className="text-xl font-semibold text-gray-900 mb-6">Health Metrics</h3>
@@ -459,6 +578,7 @@ const DashboardPage = () => {
                     </motion.button>
                   ))}
                 </div>
+              </div>
               </div>
             </motion.div>
           </div>
@@ -557,7 +677,7 @@ const DashboardPage = () => {
                     }}
                   />
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Lady Diane Casilang</h3>
+                    <h3 className="text-2xl font-bold text-gray-900">{user?.name || 'Wellness Warrior'}</h3>
                     <p className="text-gray-600">Capybara lover & wellness warrior 🌸</p>
                   </div>
                 </div>

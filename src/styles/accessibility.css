@@ -1,0 +1,575 @@
+/* Accessibility Styles for LoveYou App */
+/* These styles ONLY apply when specific accessibility modes are enabled */
+
+/* High Contrast Mode - Fixed to prevent black backgrounds */
+body.high-contrast {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Target main containers specifically */
+body.high-contrast .min-h-screen,
+body.high-contrast .bg-gradient-to-br,
+body.high-contrast .bg-gradient-to-r,
+body.high-contrast .bg-gradient-to-l {
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #000000 !important;
+}
+
+/* Cards and surfaces */
+body.high-contrast .bg-white,
+body.high-contrast .bg-pink-50,
+body.high-contrast .bg-rose-50,
+body.high-contrast .bg-purple-50,
+body.high-contrast .bg-gray-50 {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Remove background images and shadows */
+body.high-contrast * {
+  background-image: none !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+/* Buttons */
+body.high-contrast button {
+  border: 2px solid #000000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+body.high-contrast button:hover,
+body.high-contrast button:focus {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Form elements */
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+  border: 2px solid #000000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4,
+body.high-contrast h5,
+body.high-contrast h6,
+body.high-contrast p,
+body.high-contrast span,
+body.high-contrast div,
+body.high-contrast li {
+  color: #000000 !important;
+}
+
+body.high-contrast a {
+  color: #0000FF !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+body.high-contrast a:hover,
+body.high-contrast a:focus {
+  color: #ffffff !important;
+  background: #0000FF !important;
+}
+
+body.high-contrast nav,
+body.high-contrast header {
+  background: #ffffff !important;
+  border-bottom: 3px solid #000000 !important;
+}
+
+body.high-contrast .fixed.inset-0[aria-hidden="true"] {
+  display: none !important;
+}
+
+/* Dark Mode - Fixed to use html.dark selector */
+html.dark {
+  background: #1a1a2e !important;
+  color: #f8fafc !important;
+}
+
+html.dark body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+  color: #f8fafc !important;
+}
+
+html.dark .min-h-screen {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+}
+
+html.dark .bg-white {
+  background: rgba(30, 30, 50, 0.9) !important;
+  color: #f8fafc !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+html.dark .bg-pink-50,
+html.dark .bg-rose-50,
+html.dark .bg-purple-50 {
+  background: rgba(236, 72, 153, 0.15) !important;
+  color: #f8fafc !important;
+}
+
+html.dark .bg-gradient-to-br {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+}
+
+html.dark .text-gray-800,
+html.dark .text-gray-900 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .text-gray-600,
+html.dark .text-gray-700 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Dark mode pink elements */
+html.dark .text-pink-600,
+html.dark .text-pink-700 {
+  color: #f472b6 !important;
+}
+
+html.dark .text-rose-600,
+html.dark .text-rose-700 {
+  color: #fb7185 !important;
+}
+
+/* Dark mode borders */
+html.dark .border-pink-200,
+html.dark .border-gray-200 {
+  border-color: rgba(236, 72, 153, 0.3) !important;
+}
+
+html.dark .border-gray-100 {
+  border-color: rgba(156, 163, 175, 0.2) !important;
+}
+
+/* Dark mode navigation */
+html.dark nav,
+html.dark header {
+  background: rgba(30, 30, 50, 0.9) !important;
+  border-color: rgba(236, 72, 153, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+/* Dark mode buttons */
+html.dark button {
+  border-color: rgba(236, 72, 153, 0.3) !important;
+}
+
+html.dark .bg-pink-500,
+html.dark .bg-pink-600 {
+  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%) !important;
+}
+
+/* Dark mode gradients */
+html.dark .bg-gradient-to-r.from-pink-500.to-purple-500 {
+  background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%) !important;
+}
+
+/* Dark mode forms */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background: rgba(30, 30, 50, 0.8) !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+  color: #f8fafc !important;
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #ec4899 !important;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2) !important;
+}
+
+/* Dark mode shadows and effects */
+html.dark .shadow-sm,
+html.dark .shadow-lg,
+html.dark .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .rounded-2xl,
+html.dark .rounded-xl {
+  backdrop-filter: blur(20px) !important;
+}
+
+/* AI Insights Widget specific dark mode */
+html.dark .bg-gradient-to-r.from-green-50.to-emerald-50 {
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2)) !important;
+}
+
+html.dark .bg-gradient-to-r.from-pink-50.to-rose-50 {
+  background: linear-gradient(to right, rgba(236, 72, 153, 0.2), rgba(251, 113, 133, 0.2)) !important;
+}
+
+html.dark .bg-gradient-to-r.from-blue-50.to-indigo-50 {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2)) !important;
+}
+
+/* Dark mode text colors for insights */
+html.dark .text-green-700 {
+  color: #4ade80 !important;
+}
+
+html.dark .text-blue-700 {
+  color: #60a5fa !important;
+}
+
+/* Font Size Classes (applied to root) */
+html.text-sm {
+  font-size: 14px;
+}
+
+html.text-base {
+  font-size: 16px;
+}
+
+html.text-lg {
+  font-size: 18px;
+}
+
+html.text-xl {
+  font-size: 20px;
+}
+
+/* Reduced Motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Color Blind Support Filters */
+body.protanopia {
+  filter: url('#protanopia-filter');
+}
+
+body.deuteranopia {
+  filter: url('#deuteranopia-filter');
+}
+
+body.tritanopia {
+  filter: url('#tritanopia-filter');
+}
+
+/* Focus Indicators - Enhanced for accessibility */
+*:focus {
+  outline: 2px solid #ec4899 !important;
+  outline-offset: 2px !important;
+}
+
+body.high-contrast *:focus {
+  outline: 3px solid #000000 !important;
+  outline-offset: 2px !important;
+}
+
+.high-contrast button:hover,
+.high-contrast button:focus {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  border: 2px solid #000000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Ensure all text is visible in high contrast */
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast h4,
+.high-contrast h5,
+.high-contrast h6,
+.high-contrast p,
+.high-contrast span,
+.high-contrast div,
+.high-contrast a,
+.high-contrast li {
+  color: #000000 !important;
+}
+
+/* Links should be clearly distinguishable */
+.high-contrast a {
+  color: #0000FF !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+.high-contrast a:hover,
+.high-contrast a:focus {
+  color: #ffffff !important;
+  background: #0000FF !important;
+}
+
+/* Ensure navigation and headers are visible */
+.high-contrast nav,
+.high-contrast header {
+  background: #ffffff !important;
+  border-bottom: 3px solid #000000 !important;
+}
+
+/* Special handling for decorative elements */
+.high-contrast .fixed.inset-0,
+.high-contrast [aria-hidden="true"] {
+  display: none !important;
+}
+
+/* Dark Mode */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark .bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #2d1b69, #1a1a1a) !important;
+}
+
+.dark .bg-white {
+  background: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+.dark .text-gray-800 {
+  color: #ffffff !important;
+}
+
+.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.dark .border-pink-200 {
+  border-color: #9ca3af !important;
+}
+
+.dark .bg-pink-50 {
+  background: #374151 !important;
+}
+
+.dark .bg-rose-50 {
+  background: #374151 !important;
+}
+
+/* Reduced Motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.reduce-motion .motion-safe\:animate-bounce {
+  animation: none !important;
+}
+
+.reduce-motion .motion-safe\:animate-pulse {
+  animation: none !important;
+}
+
+.reduce-motion .motion-safe\:animate-spin {
+  animation: none !important;
+}
+
+/* Font Size Classes */
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+/* Color Blind Support */
+.protanopia {
+  filter: url('#protanopia-filter');
+}
+
+.deuteranopia {
+  filter: url('#deuteranopia-filter');
+}
+
+.tritanopia {
+  filter: url('#tritanopia-filter');
+}
+
+/* Focus Indicators */
+.focus\:ring-2:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #ec4899;
+}
+
+.focus\:ring-pink-500:focus {
+  box-shadow: 0 0 0 2px #ec4899;
+}
+
+/* High contrast focus indicators */
+.high-contrast .focus\:ring-2:focus,
+.high-contrast .focus\:ring-pink-500:focus {
+  box-shadow: 0 0 0 3px #000000;
+  outline: 3px solid #000000;
+}
+
+/* Skip links */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Improve button accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #ec4899;
+  outline-offset: 2px;
+}
+
+.high-contrast button:focus-visible,
+.high-contrast a:focus-visible,
+.high-contrast input:focus-visible,
+.high-contrast select:focus-visible,
+.high-contrast textarea:focus-visible {
+  outline: 3px solid #000000;
+  outline-offset: 2px;
+}
+
+/* Ensure adequate contrast for interactive elements */
+.high-contrast .hover\:bg-pink-50:hover {
+  background: #e0e0e0 !important;
+}
+
+.high-contrast .hover\:text-pink-600:hover {
+  color: #000000 !important;
+}
+
+/* Make sure text is readable on all backgrounds */
+.high-contrast .text-pink-600 {
+  color: #000000 !important;
+}
+
+.high-contrast .text-rose-600 {
+  color: #000000 !important;
+}
+
+.high-contrast .text-purple-600 {
+  color: #000000 !important;
+}
+
+/* Ensure icons are visible */
+.high-contrast svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Improve form accessibility */
+input:invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.high-contrast input:invalid {
+  border-color: #000000 !important;
+  box-shadow: 0 0 0 2px #000000 !important;
+}
+
+/* Ensure proper spacing for larger fonts */
+.text-lg * {
+  line-height: 1.6;
+}
+
+.text-xl * {
+  line-height: 1.7;
+}
+
+/* Make sure hover states are accessible */
+@media (hover: hover) {
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+  
+  .reduce-motion .hover\:scale-105:hover {
+    transform: none;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .bg-gradient-to-br,
+  .bg-gradient-to-r,
+  .bg-gradient-to-l {
+    background: white !important;
+    color: black !important;
+  }
+  
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

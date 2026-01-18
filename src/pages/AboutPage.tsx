@@ -91,7 +91,7 @@ const AboutPage = () => {
             <motion.div variants={animationVariants.item}>
               <div className="inline-flex items-center space-x-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4" fill="currentColor" aria-hidden="true" />
-                <span>About Milady</span>
+                <span>About LoveYou</span>
               </div>
               <h1 id="about-heading" className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
                 Made with love for{' '}
@@ -100,7 +100,7 @@ const AboutPage = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Milady was created with love and dedication to help one special person - 
+                LoveYou was created with love and dedication to help one special person - 
                 Lady Diane Casilang - overcome her pill management challenges. What started 
                 as a personal solution became a beautiful app designed to empower women 
                 everywhere in their wellness journey.
@@ -126,7 +126,7 @@ const AboutPage = () => {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Milady was born from love and the desire to care for someone special. 
+                  LoveYou was born from love and the desire to care for someone special. 
                   This app was created specifically for Lady Diane Casilang, who struggled 
                   with pill time management despite her best efforts.
                 </p>
@@ -165,8 +165,8 @@ const AboutPage = () => {
                     <div className="text-6xl mb-4">�</div>
                     <h3 className="text-xl font-semibold text-gray-900">Our Heart</h3>
                     <p className="text-gray-600">
-                      Born from love and dedication to Lady Diane Casilang, Milady transforms 
-                      pill management from a daily struggle into a beautiful, mindful ritual 
+                      Born from love and dedication to Lady Diane Casilang, LoveYou transforms
+                      pill management from a daily struggle into a beautiful, mindful ritual
                       of self-care and wellness.
                     </p>
                   </div>
@@ -234,7 +234,7 @@ const AboutPage = () => {
               Trusted by Women Worldwide
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join thousands of women who have already taken control of their health with Milady.
+              Join thousands of women who have already taken control of their health with LoveYou.
             </p>
           </motion.div>
 
@@ -317,7 +317,7 @@ const AboutPage = () => {
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                   With All My Love
                 </h2>
-                <div className="space-y-4 text-enhanced-contrast">
+                <div className="space-y-4 text-gray-700">
                   <p className="text-lg italic">
                     "To my dearest Lady Diane Casilang,"
                   </p>
@@ -328,7 +328,7 @@ const AboutPage = () => {
                   </p>
                   <p>
                     You deserve an app as beautiful and thoughtful as you are. 
-                    May Milady be your daily companion in wellness, bringing a smile 
+                    May LoveYou be your daily companion in wellness, bringing a smile 
                     to your routine and peace of mind to your days.
                   </p>
                   <p className="text-pink-600 font-semibold text-lg">
@@ -357,7 +357,7 @@ const AboutPage = () => {
               </h2>
               <p className="text-xl text-pink-100 max-w-2xl mx-auto">
                 Join Lady Diane and countless other women who've made their pill routine 
-                effortless and beautiful with Milady.
+                effortless and beautiful with LoveYou.
               </p>
             </div>
 

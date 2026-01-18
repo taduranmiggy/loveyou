@@ -1,5 +1,3 @@
-import tailwindForms from '@tailwindcss/forms';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        pink: {
+        'pink': {
           50: '#fdf2f8',
           100: '#fce7f3',
           200: '#fbcfe8',
@@ -20,40 +18,34 @@ export default {
           700: '#be185d',
           800: '#9d174d',
           900: '#831843',
-          950: '#500724',
         },
-        rose: {
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          200: '#fecdd3',
-          300: '#fda4af',
-          400: '#fb7185',
-          500: '#f43f5e',
-          600: '#e11d48',
-          700: '#be123c',
-          800: '#9f1239',
-          900: '#881337',
-          950: '#4c0519',
-        },
+        'capybara': {
+          100: '#f3e8d1',
+          200: '#e6d0a2',
+          300: '#d9b874',
+          400: '#cca045',
+          500: '#bf8817',
+          600: '#996d12',
+          700: '#73520e',
+          800: '#4d3709',
+          900: '#261b05',
+        }
       },
       fontFamily: {
-        'cute': ['Comic Neue', 'cursive'],
-        'fashion': ['Playfair Display', 'serif'],
+        'cute': ['Comic Sans MS', 'cursive'],
       },
       animation: {
-        'bounce-gentle': 'bounce 2s infinite',
+        'bounce-slow': 'bounce 2s infinite',
         'pulse-soft': 'pulse 3s infinite',
-        'sparkle': 'sparkle 1.5s ease-in-out infinite alternate',
+        'wiggle': 'wiggle 1s ease-in-out infinite',
       },
       keyframes: {
-        sparkle: {
-          '0%': { opacity: '0.4', transform: 'scale(0.8)' },
-          '100%': { opacity: '1', transform: 'scale(1.2)' },
-        },
-      },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        }
+      }
     },
   },
-  plugins: [
-    tailwindForms,
-  ],
+  plugins: [],
 }

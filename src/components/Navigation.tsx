@@ -59,12 +59,15 @@ const Navigation: React.FC<NavigationProps> = ({
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
     };
   }, [isMobileMenuOpen]);
 
@@ -74,15 +77,15 @@ const Navigation: React.FC<NavigationProps> = ({
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`
-          fixed top-0 left-0 right-0 z-50 transition-all duration-300
+          fixed top-0 left-0 right-0 transition-all duration-300 nav-layer
           ${scrolled 
-            ? 'bg-white/95 backdrop-blur-lg shadow-lg border-b border-pink-100' 
+            ? 'nav-scrolled' 
             : 'bg-transparent'
           }
           ${className}
         `.trim()}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 nav-container">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <motion.div
@@ -93,7 +96,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 <Link to="/" className="flex items-center gap-2">
                   <Heart className="w-8 h-8 text-pink-500" />
                   <span className="text-xl font-bold text-gradient-primary">
-                    Milady
+                    LoveYou
                   </span>
                 </Link>
               )}
@@ -115,7 +118,8 @@ const Navigation: React.FC<NavigationProps> = ({
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors"
+              className="lg:hidden p-2 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors mobile-nav-button"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -248,7 +252,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm mobile-menu-backdrop lg:hidden"
           />
 
           {/* Menu Panel */}
@@ -257,7 +261,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-2xl z-50 lg:hidden"
+            className="fixed top-0 right-0 bottom-0 w-80 bg-white shadow-2xl mobile-menu-panel lg:hidden"
           >
             <div className="flex flex-col h-full">
               {/* Header */}
@@ -265,7 +269,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 <Link to="/" className="flex items-center gap-2" onClick={onClose}>
                   <Heart className="w-8 h-8 text-pink-500" />
                   <span className="text-xl font-bold text-gradient-primary">
-                    Milady
+                    LoveYou
                   </span>
                 </Link>
                 

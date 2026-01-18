@@ -48,6 +48,7 @@ app.use('/api/pills', require('./routes/pills'));
 app.use('/api/intakes', require('./routes/intakes'));
 app.use('/api/cycles', require('./routes/cycles'));
 app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/database', require('./routes/database'));
 
 // 404 handler
 app.use('*', (req, res) => {

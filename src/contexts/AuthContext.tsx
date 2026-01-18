@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Check for existing session on app load
   useEffect(() => {
     const checkAuthStatus = () => {
-      const savedUser = localStorage.getItem('milady_user');
-      const token = localStorage.getItem('milady_token');
+      const savedUser = localStorage.getItem('loveyou_user');
+      const token = localStorage.getItem('loveyou_token');
       
       if (savedUser && token) {
         try {
@@ -59,8 +59,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setUser(userData);
         } catch (error) {
           console.error('Error parsing stored user data:', error);
-          localStorage.removeItem('milady_user');
-          localStorage.removeItem('milady_token');
+          localStorage.removeItem('loveyou_user');
+          localStorage.removeItem('loveyou_token');
         }
       }
       setIsLoading(false);
@@ -84,8 +84,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const mockToken = 'mock-jwt-token-' + Date.now();
       
-      localStorage.setItem('milady_user', JSON.stringify(mockUser));
-      localStorage.setItem('milady_token', mockToken);
+      localStorage.setItem('loveyou_user', JSON.stringify(mockUser));
+      localStorage.setItem('loveyou_token', mockToken);
       setUser(mockUser);
       
       return true;
@@ -110,8 +110,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const mockToken = 'mock-jwt-token-' + Date.now();
       
-      localStorage.setItem('milady_user', JSON.stringify(mockUser));
-      localStorage.setItem('milady_token', mockToken);
+      localStorage.setItem('loveyou_user', JSON.stringify(mockUser));
+      localStorage.setItem('loveyou_token', mockToken);
       setUser(mockUser);
       
       return true;
@@ -122,8 +122,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('milady_user');
-    localStorage.removeItem('milady_token');
+    localStorage.removeItem('loveyou_user');
+    localStorage.removeItem('loveyou_token');
     setUser(null);
   };
 
@@ -131,7 +131,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (user) {
       const updatedUser = { ...user, ...userData };
       setUser(updatedUser);
-      localStorage.setItem('milady_user', JSON.stringify(updatedUser));
+      localStorage.setItem('loveyou_user', JSON.stringify(updatedUser));
     }
   };
 

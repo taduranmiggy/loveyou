@@ -1,12 +1,12 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/Button';
 
 const LoginPage = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = false; // For accessibility - can be enhanced later
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
@@ -58,54 +58,71 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-pink-50 flex items-center justify-center pt-24 pb-12 px-4 sm:px-6 lg:px-8 lg:pt-28">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl"
+          animate={shouldReduceMotion ? {} : { scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={shouldReduceMotion ? {} : { duration: 8, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-rose-100/30 rounded-full blur-3xl"
+          animate={shouldReduceMotion ? {} : { scale: [1.1, 1, 1.1], opacity: [0.4, 0.2, 0.4] }}
+          transition={shouldReduceMotion ? {} : { duration: 10, repeat: Infinity, delay: 2 }}
+        />
+      </div>
+
       <motion.div
         variants={animationVariants.container}
         initial="hidden"
         animate="visible"
-        className="max-w-md w-full space-y-8"
+        className="relative z-10 w-full max-w-md"
       >
-        {/* Header */}
-        <motion.div variants={animationVariants.item} className="text-center">
-          <motion.div
-            className="mx-auto w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center shadow-lg"
-            whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-          >
-            <img 
-              src="/welcomecapybara.png" 
-              alt="Welcome capybara"
-              className="w-12 h-12 object-contain"
-            />
+        {/* Main Card */}
+        <div className="bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl border border-white/20 p-8 sm:p-10">
+          {/* Header */}
+          <motion.div variants={animationVariants.item} className="text-center mb-8">
+            <motion.div
+              className="mx-auto w-20 h-20 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center shadow-lg mb-6"
+              whileHover={shouldReduceMotion ? {} : { scale: 1.05, rotate: 5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img 
+                src="/welcomecapybara.png" 
+                alt="LoveYou Logo"
+                className="w-12 h-12 object-contain"
+              />
+            </motion.div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Welcome Back
+            </h1>
+            <p className="text-gray-600">
+              Sign in to your LoveYou account
+            </p>
           </motion.div>
-          <h1 className="mt-6 heading-lg text-gradient-primary">
-            Welcome back, friend! 🌸
-          </h1>
-          <p className="mt-2 text-body-md text-emphasized">
-            Your capybara wellness community is waiting for you
-          </p>
-        </motion.div>
 
-        {/* Error Message */}
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
-          >
-            {error}
-          </motion.div>
-        )}
+          {/* Error Message */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+            >
+              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+              {error}
+            </motion.div>
+          )}
 
-        {/* Form */}
-        <motion.div variants={animationVariants.item}>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+          {/* Form */}
+          <motion.div variants={animationVariants.item}>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-body-sm text-emphasized mb-2">
-                  Email address
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email Address
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <Mail className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   </div>
                   <input
@@ -116,22 +133,19 @@ const LoginPage = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="input-field pl-10"
-                    placeholder="Enter your email"
-                    aria-describedby="email-description"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 focus:bg-white placeholder-gray-400"
+                    placeholder="Enter your email address"
                   />
                 </div>
-                <p id="email-description" className="sr-only">
-                  Enter the email address associated with your account
-                </p>
               </div>
 
+              {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-body-sm text-emphasized mb-2">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                   Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <Lock className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   </div>
                   <input
@@ -142,13 +156,12 @@ const LoginPage = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="input-field pl-10 pr-10"
+                    className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 bg-gray-50/50 focus:bg-white placeholder-gray-400"
                     placeholder="Enter your password"
-                    aria-describedby="password-description"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-100 rounded-r-xl transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
@@ -159,68 +172,61 @@ const LoginPage = () => {
                     )}
                   </button>
                 </div>
-                <p id="password-description" className="sr-only">
-                  Enter your account password
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-body-sm text-emphasized">
-                  Remember me
-                </label>
               </div>
 
-              <div className="text-body-sm">
+              {/* Remember Me & Forgot Password */}
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded transition-colors"
+                  />
+                  <label htmlFor="remember-me" className="ml-3 text-sm text-gray-600">
+                    Remember me
+                  </label>
+                </div>
+
                 <Link
                   to="/forgot-password"
-                  className="font-medium text-pink-600 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded"
+                  className="text-sm font-medium text-pink-600 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg px-2 py-1 transition-colors"
                 >
-                  Forgot your password?
+                  Forgot password?
                 </Link>
               </div>
-            </div>
 
-            <div>
+              {/* Sign In Button */}
               <Button
                 type="submit"
                 variant="primary"
                 size="lg"
                 loading={isLoading}
-                shimmer={!isLoading}
-                icon={<ArrowRight className="w-5 h-5" />}
-                iconPosition="right"
                 fullWidth
-                className="group"
+                className="!py-3 !text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
+                {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
-            </div>
+            </form>
+          </motion.div>
 
-            <div className="text-center">
-              <p className="text-body-sm text-emphasized">
-                Don't have an account?{' '}
-                <Link
-                  to="/register"
-                  className="font-medium text-pink-600 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded"
-                >
-                  Sign up here
-                </Link>
-              </p>
-            </div>
-          </form>
-        </motion.div>
+          {/* Sign Up Link */}
+          <motion.div variants={animationVariants.item} className="text-center mt-8 pt-6 border-t border-gray-100">
+            <p className="text-gray-600">
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                className="font-semibold text-pink-600 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg px-2 py-1 transition-colors"
+              >
+                Sign up
+              </Link>
+            </p>
+          </motion.div>
+        </div>
 
         {/* Privacy Notice */}
-        <motion.div variants={animationVariants.item} className="text-center">
-          <p className="text-caption text-emphasized">
+        <motion.div variants={animationVariants.item} className="text-center mt-6">
+          <p className="text-xs text-gray-500">
             By signing in, you agree to our{' '}
             <Link to="/privacy" className="text-pink-600 hover:text-pink-500 underline">
               Privacy Policy
@@ -231,20 +237,6 @@ const LoginPage = () => {
             </Link>
           </p>
         </motion.div>
-
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <motion.div
-            className="absolute top-1/4 -left-10 w-20 h-20 bg-pink-200/30 rounded-full blur-xl"
-            animate={shouldReduceMotion ? {} : { y: [-10, 10, -10] }}
-            transition={shouldReduceMotion ? {} : { duration: 3, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute bottom-1/3 -right-10 w-32 h-32 bg-rose-200/20 rounded-full blur-xl"
-            animate={shouldReduceMotion ? {} : { y: [10, -10, 10] }}
-            transition={shouldReduceMotion ? {} : { duration: 4, repeat: Infinity, delay: 1 }}
-          />
-        </div>
       </motion.div>
     </div>
   );

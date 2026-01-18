@@ -1,166 +1,76 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, Heart, Pill, Circle, CheckCircle2, AlertCircle } from 'lucide-react';
-
-interface DayData {
-  date: number;
-  isCurrentMonth: boolean;
-  isPillDay: boolean;
-  pillTaken: boolean;
-  cycleDay?: number;
-  isOvulation?: boolean;
-  isPeriod?: boolean;
-  notes?: string;
-}
+import { Calendar as CalendarIcon, TrendingUp, Activity, Heart, Settings, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import Calendar from '../components/Calendar';
+import Button from '../components/Button';
 
 const CalendarPage = () => {
-  const shouldReduceMotion = useReducedMotion();
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<DayData | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [activeView, setActiveView] = useState<'calendar' | 'insights' | 'trends'>('calendar');
 
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  const onboardingData = user?.onboardingData;
+  const userName = user?.nickname || onboardingData?.nickname || 'there';
 
-  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  const animationVariants = {
-    container: {
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: shouldReduceMotion ? 0 : 0.05
-        }
-      }
-    },
-    item: {
-      hidden: { scale: shouldReduceMotion ? 1 : 0.8, opacity: 0 },
-      visible: {
-        scale: 1,
-        opacity: 1,
-        transition: { duration: shouldReduceMotion ? 0.1 : 0.2 }
-      }
-    }
+  // Sample stats data (replace with real API data)
+  const stats = {
+    pillStreak: 7,
+    nextPeriod: '5 days',
+    cycleDay: 14,
+    currentPhase: 'Ovulation'
   };
 
-  // Generate calendar days
-  const generateCalendarDays = (): DayData[] => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-    
-    const days: DayData[] = [];
-    const currentDay = new Date(startDate);
-    
-    // Mock pill schedule (every day) and cycle data
-    const pillSchedule = Array.from({ length: 21 }, (_, i) => i + 1); // 21 active pills
-    const mockCycleStart = new Date(year, month, 5); // Mock period start
-    
-    for (let i = 0; i < 42; i++) { // 6 weeks
-      const isCurrentMonth = currentDay.getMonth() === month;
-      const dayOfMonth = currentDay.getDate();
-      const today = new Date();
-      const isToday = currentDay.toDateString() === today.toDateString();
-      
-      // Calculate cycle day (mock data)
-      const daysSinceStart = Math.floor((currentDay.getTime() - mockCycleStart.getTime()) / (1000 * 60 * 60 * 24));
-      const cycleDay = ((daysSinceStart % 28) + 28) % 28 + 1;
-      
-      days.push({
-        date: dayOfMonth,
-        isCurrentMonth,
-        isPillDay: isCurrentMonth && pillSchedule.includes(cycleDay),
-        pillTaken: isCurrentMonth && dayOfMonth < today.getDate() && pillSchedule.includes(cycleDay),
-        cycleDay: isCurrentMonth ? cycleDay : undefined,
-        isOvulation: isCurrentMonth && cycleDay === 14,
-        isPeriod: isCurrentMonth && cycleDay >= 1 && cycleDay <= 5,
-        notes: isToday ? 'Today' : undefined
-      });
-      
-      currentDay.setDate(currentDay.getDate() + 1);
-    }
-    
-    return days;
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
   };
 
-  const calendarDays = generateCalendarDays();
-
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(newDate.getMonth() - 1);
-    } else {
-      newDate.setMonth(newDate.getMonth() + 1);
-    }
-    setCurrentDate(newDate);
+  const handleBackToDashboard = () => {
+    navigate('/dashboard');
   };
-
-  const getDayStyle = (day: DayData) => {
-    let baseStyle = "relative w-12 h-12 flex items-center justify-center text-sm font-medium rounded-lg transition-all cursor-pointer ";
-    
-    if (!day.isCurrentMonth) {
-      baseStyle += "text-gray-300 hover:bg-gray-50 ";
-    } else if (day.isPeriod) {
-      baseStyle += "bg-red-100 text-red-700 hover:bg-red-200 ";
-    } else if (day.isOvulation) {
-      baseStyle += "bg-purple-100 text-purple-700 hover:bg-purple-200 ";
-    } else if (day.isPillDay && day.pillTaken) {
-      baseStyle += "bg-green-100 text-green-700 hover:bg-green-200 ";
-    } else if (day.isPillDay && !day.pillTaken) {
-      baseStyle += "bg-pink-100 text-pink-700 hover:bg-pink-200 border-2 border-pink-300 ";
-    } else {
-      baseStyle += "text-gray-700 hover:bg-gray-50 ";
-    }
-    
-    return baseStyle;
-  };
-
-  const getStatusIcon = (day: DayData) => {
-    if (day.isPeriod) return <Circle className="w-3 h-3 text-red-500" fill="currentColor" />;
-    if (day.isOvulation) return <Circle className="w-3 h-3 text-purple-500" fill="currentColor" />;
-    if (day.isPillDay && day.pillTaken) return <CheckCircle2 className="w-3 h-3 text-green-500" />;
-    if (day.isPillDay && !day.pillTaken) return <AlertCircle className="w-3 h-3 text-pink-500" />;
-    return null;
-  };
-
-  const stats = [
-    { label: 'Pill Streak', value: '12 days', color: 'text-green-600' },
-    { label: 'Next Period', value: 'In 18 days', color: 'text-red-600' },
-    { label: 'Cycle Day', value: '10', color: 'text-purple-600' },
-    { label: 'This Month', value: '85% taken', color: 'text-pink-600' }
-  ];
-
-  const legend = [
-    { icon: <CheckCircle2 className="w-4 h-4 text-green-500" />, label: 'Pill Taken', color: 'bg-green-50' },
-    { icon: <AlertCircle className="w-4 h-4 text-pink-500" />, label: 'Pill Due', color: 'bg-pink-50' },
-    { icon: <Circle className="w-4 h-4 text-red-500" fill="currentColor" />, label: 'Period', color: 'bg-red-50' },
-    { icon: <Circle className="w-4 h-4 text-purple-500" fill="currentColor" />, label: 'Ovulation', color: 'bg-purple-50' }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
       {/* Header */}
       <motion.section
-        initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-        animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="py-12 lg:py-20"
-        aria-labelledby="calendar-heading"
+        className="pt-20 pb-8 lg:pt-24 lg:pb-12"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-12 relative">
-            {/* Floating capybaras */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleBackToDashboard}
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Dashboard
+              </Button>
+              
+              <div>
+                <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                  Your Calendar
+                </h1>
+                <p className="text-gray-600 mt-1">
+                  Track your pills and cycle, {userName}! 🌸
+                </p>
+              </div>
+            </div>
+
+            {/* Floating capybara */}
             <motion.img 
-              src="/smartcapy.png" 
-              alt="Smart capybara with calendar"
-              className="absolute -top-8 -left-4 w-16 h-16 opacity-60"
-              animate={shouldReduceMotion ? {} : { 
-                y: [-5, 5, -5],
-                rotate: [-3, 3, -3]
+              src="/flowercapybara.png" 
+              alt="Calendar capybara"
+              className="w-20 h-20 opacity-70"
+              animate={{ 
+                y: [-3, 3, -3],
+                rotate: [-1, 1, -1]
               }}
               transition={{ 
                 duration: 4, 
@@ -168,296 +78,249 @@ const CalendarPage = () => {
                 ease: "easeInOut" 
               }}
             />
-            <motion.img 
-              src="/bookcapy.png" 
-              alt="Studious capybara"
-              className="absolute -top-4 -right-8 w-14 h-14 opacity-60"
-              animate={shouldReduceMotion ? {} : { 
-                y: [5, -5, 5],
-                rotate: [3, -3, 3]
-              }}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
-                ease: "easeInOut",
-                delay: 1
-              }}
-            />
-            
-            <div className="inline-flex items-center space-x-2 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-medium">
-              <Calendar className="w-4 h-4" aria-hidden="true" />
-              <span>🌸 Your Capybara Health Calendar</span>
-            </div>
-            <h1 id="calendar-heading" className="text-3xl lg:text-5xl font-bold text-gray-900">
-              Track Your{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">
-                Zen Health Journey
-              </span>
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Monitor your pill schedule, cycle patterns, and health insights with the calm wisdom of capybaras 🌿
-            </p>
           </div>
 
-          {/* Stats */}
-          <motion.div
-            variants={animationVariants.container}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12"
-          >
-            {stats.map((stat) => (
-              <motion.div
-                key={stat.label}
-                variants={animationVariants.item}
-                className="card text-center"
-                whileHover={shouldReduceMotion ? {} : { y: -2 }}
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-pink-100"
+              whileHover={{ y: -2, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                  <CalendarIcon className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">{stats.pillStreak}</div>
+                  <div className="text-sm text-gray-600">Day Streak</div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-pink-100"
+              whileHover={{ y: -2, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">{stats.nextPeriod}</div>
+                  <div className="text-sm text-gray-600">Next Period</div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-pink-100"
+              whileHover={{ y: -2, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                  <Activity className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">{stats.cycleDay}</div>
+                  <div className="text-sm text-gray-600">Cycle Day</div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-pink-100"
+              whileHover={{ y: -2, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-pink-600" />
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-gray-900">{stats.currentPhase}</div>
+                  <div className="text-sm text-gray-600">Current Phase</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* View Tabs */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {[
+              { id: 'calendar', label: 'Calendar View', icon: <CalendarIcon className="w-4 h-4" /> },
+              { id: 'insights', label: 'Insights', icon: <Activity className="w-4 h-4" /> },
+              { id: 'trends', label: 'Trends', icon: <TrendingUp className="w-4 h-4" /> }
+            ].map((tab) => (
+              <Button
+                key={tab.id}
+                variant={activeView === tab.id ? 'primary' : 'outline'}
+                size="sm"
+                onClick={() => setActiveView(tab.id as any)}
+                className="flex items-center gap-2"
               >
-                <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </motion.div>
+                {tab.icon}
+                {tab.label}
+              </Button>
             ))}
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
-      {/* Calendar */}
-      <section className="pb-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Calendar Grid */}
-            <div className="lg:col-span-2">
-              <motion.div
-                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="bg-white rounded-2xl shadow-xl p-6"
-              >
-                {/* Calendar Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    {months[currentDate.getMonth()]} {currentDate.getFullYear()}
-                  </h2>
-                  <div className="flex items-center space-x-2">
-                    <motion.button
-                      onClick={() => navigateMonth('prev')}
-                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                      whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-                      whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
-                      aria-label="Previous month"
-                    >
-                      <ChevronLeft className="w-5 h-5 text-gray-600" />
-                    </motion.button>
-                    <motion.button
-                      onClick={() => navigateMonth('next')}
-                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                      whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-                      whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
-                      aria-label="Next month"
-                    >
-                      <ChevronRight className="w-5 h-5 text-gray-600" />
-                    </motion.button>
-                  </div>
-                </div>
+      {/* Main Content */}
+      <section className="pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {activeView === 'calendar' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid lg:grid-cols-3 gap-8"
+            >
+              {/* Calendar Component */}
+              <div className="lg:col-span-2">
+                <Calendar 
+                  onDateSelect={handleDateSelect}
+                  selectedDate={selectedDate}
+                  className="w-full"
+                />
+              </div>
 
-                {/* Week Days */}
-                <div className="grid grid-cols-7 gap-1 mb-2">
-                  {weekDays.map((day) => (
-                    <div key={day} className="text-center text-sm font-medium text-gray-500 py-2">
-                      {day}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Calendar Days */}
+              {/* Sidebar */}
+              <div className="space-y-6">
+                {/* Selected Date Info */}
                 <motion.div
-                  variants={animationVariants.container}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-7 gap-1"
+                  className="bg-white rounded-3xl shadow-lg border border-pink-100 p-6"
+                  whileHover={{ y: -2 }}
                 >
-                  {calendarDays.map((day, index) => (
-                    <motion.button
-                      key={index}
-                      variants={animationVariants.item}
-                      className={getDayStyle(day)}
-                      onClick={() => setSelectedDay(day)}
-                      whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-                      whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
-                      aria-label={`${day.date} ${day.isPillDay ? (day.pillTaken ? 'pill taken' : 'pill due') : ''}`}
-                    >
-                      {day.date}
-                      {getStatusIcon(day) && (
-                        <div className="absolute -top-1 -right-1">
-                          {getStatusIcon(day)}
-                        </div>
-                      )}
-                    </motion.button>
-                  ))}
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {selectedDate.toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-pink-50 rounded-xl">
+                      <CalendarIcon className="w-5 h-5 text-pink-500" />
+                      <div>
+                        <div className="font-medium">Pill Status</div>
+                        <div className="text-sm text-gray-600">Taken at 8:30 AM</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
+                      <Heart className="w-5 h-5 text-purple-500" />
+                      <div>
+                        <div className="font-medium">Cycle Phase</div>
+                        <div className="text-sm text-gray-600">Ovulation (Day 14)</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 grid grid-cols-1 gap-2">
+                    <Button size="sm" className="w-full">
+                      Log Symptoms
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Add Notes
+                    </Button>
+                  </div>
                 </motion.div>
 
-                {/* Legend */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Legend</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {legend.map((item, index) => (
-                      <div key={index} className={`flex items-center space-x-2 p-2 rounded-lg ${item.color}`}>
-                        {item.icon}
-                        <span className="text-sm text-gray-700">{item.label}</span>
+                {/* Upcoming Reminders */}
+                <motion.div
+                  className="bg-white rounded-3xl shadow-lg border border-pink-100 p-6"
+                  whileHover={{ y: -2 }}
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    Upcoming
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">Tomorrow's Pill</div>
+                        <div className="text-xs text-gray-600">8:00 AM</div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+                    </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Today's Summary */}
-              <motion.div
-                initial={shouldReduceMotion ? {} : { opacity: 0, x: 20 }}
-                animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-white rounded-2xl shadow-xl p-6"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Today's Summary</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
-                      <Pill className="w-5 h-5 text-pink-600" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-900">Morning Pill</div>
-                      <div className="text-sm text-green-600">✓ Taken at 8:00 AM</div>
+                    <div className="flex items-center gap-3 p-3 bg-red-50 rounded-xl">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">Expected Period</div>
+                        <div className="text-xs text-gray-600">Aug 5-9</div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                      <Heart className="w-5 h-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-900">Cycle Day 10</div>
-                      <div className="text-sm text-gray-600">Follicular phase</div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
 
-              {/* Quick Actions */}
-              <motion.div
-                initial={shouldReduceMotion ? {} : { opacity: 0, x: 20 }}
-                animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="bg-white rounded-2xl shadow-xl p-6"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                <div className="space-y-3">
-                  <motion.button
-                    className="w-full btn-primary text-left"
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                  >
-                    Mark Pill Taken
-                  </motion.button>
-                  <motion.button
-                    className="w-full px-4 py-3 border border-pink-300 text-pink-600 rounded-xl hover:bg-pink-50 transition-colors text-left"
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                  >
-                    Log Symptoms
-                  </motion.button>
-                  <motion.button
-                    className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors text-left"
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                  >
-                    View Insights
-                  </motion.button>
-                </div>
-              </motion.div>
+                {/* Cute motivational capybara */}
+                <motion.div
+                  className="bg-gradient-to-r from-pink-100 to-purple-100 rounded-3xl p-6 text-center"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <motion.img 
+                    src="/ribboncapybara.png" 
+                    alt="Motivational capybara"
+                    className="w-16 h-16 mx-auto mb-3"
+                    animate={{ rotate: [-2, 2, -2] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <p className="text-sm text-gray-700 font-medium">
+                    "You're doing amazing! Keep up the great tracking! 🌸"
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
 
-              {/* Upcoming Reminders */}
-              <motion.div
-                initial={shouldReduceMotion ? {} : { opacity: 0, x: 20 }}
-                animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="bg-white rounded-2xl shadow-xl p-6"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Upcoming</h3>
-                <div className="space-y-3">
-                  <div className="p-3 bg-pink-50 rounded-lg">
-                    <div className="font-medium text-pink-700">Tomorrow</div>
-                    <div className="text-sm text-pink-600">Morning pill reminder</div>
-                  </div>
-                  <div className="p-3 bg-purple-50 rounded-lg">
-                    <div className="font-medium text-purple-700">In 4 days</div>
-                    <div className="text-sm text-purple-600">Ovulation window begins</div>
-                  </div>
-                  <div className="p-3 bg-red-50 rounded-lg">
-                    <div className="font-medium text-red-700">In 18 days</div>
-                    <div className="text-sm text-red-600">Expected period start</div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+          {activeView === 'insights' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-3xl shadow-lg border border-pink-100 p-8 text-center"
+            >
+              <Activity className="w-16 h-16 text-pink-500 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Health Insights</h3>
+              <p className="text-gray-600 mb-6">
+                Detailed insights and analytics coming soon! We're working on personalized health insights based on your tracking data.
+              </p>
+              <img 
+                src="/smartcapybara.png" 
+                alt="Smart capybara"
+                className="w-20 h-20 mx-auto opacity-70"
+              />
+            </motion.div>
+          )}
+
+          {activeView === 'trends' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-3xl shadow-lg border border-pink-100 p-8 text-center"
+            >
+              <TrendingUp className="w-16 h-16 text-purple-500 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Cycle Trends</h3>
+              <p className="text-gray-600 mb-6">
+                Beautiful charts and trend analysis coming soon! Track your patterns over time with intuitive visualizations.
+              </p>
+              <img 
+                src="/bookcapybara.png" 
+                alt="Book capybara"
+                className="w-20 h-20 mx-auto opacity-70"
+              />
+            </motion.div>
+          )}
         </div>
       </section>
-
-      {/* Selected Day Modal */}
-      {selectedDay && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-          onClick={() => setSelectedDay(null)}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-2xl p-6 max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Day {selectedDay.date} Details
-            </h3>
-            <div className="space-y-3">
-              {selectedDay.cycleDay && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Cycle Day:</span>
-                  <span className="font-medium">{selectedDay.cycleDay}</span>
-                </div>
-              )}
-              {selectedDay.isPillDay && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Pill Status:</span>
-                  <span className={`font-medium ${selectedDay.pillTaken ? 'text-green-600' : 'text-pink-600'}`}>
-                    {selectedDay.pillTaken ? 'Taken' : 'Due'}
-                  </span>
-                </div>
-              )}
-              {selectedDay.isPeriod && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Period:</span>
-                  <span className="font-medium text-red-600">Active</span>
-                </div>
-              )}
-              {selectedDay.isOvulation && (
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Ovulation:</span>
-                  <span className="font-medium text-purple-600">Predicted</span>
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => setSelectedDay(null)}
-              className="mt-6 w-full btn-primary"
-            >
-              Close
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
     </div>
   );
 };

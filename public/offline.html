@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Milady Health</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #374151;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 480px;
+            padding: 2rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            margin: 1rem;
+        }
+
+        .capybara {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .features {
+            background: #fef7ff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid #e879f9;
+        }
+
+        .features h3 {
+            color: #7c3aed;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            text-align: left;
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list li::before {
+            content: "🌸";
+            font-size: 1.2rem;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 1rem 0.5rem;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.3);
+        }
+
+        .home-btn {
+            background: white;
+            color: #ec4899;
+            border: 2px solid #ec4899;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem 0.5rem;
+        }
+
+        .home-btn:hover {
+            background: #ec4899;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fbbf24;
+            border-radius: 50%;
+            border-top-color: #92400e;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .capybara {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .retry-btn, .home-btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="capybara">
+            🦫
+        </div>
+        
+        <h1>You're Offline</h1>
+        <p class="subtitle">
+            Don't worry, your capybara friend is still here! 🌸<br>
+            Check your internet connection and try again.
+        </p>
+
+        <div class="features">
+            <h3>Available Offline Features:</h3>
+            <ul class="feature-list">
+                <li>View cached health data</li>
+                <li>Log pills (syncs when online)</li>
+                <li>Track mood and symptoms</li>
+                <li>Access previous insights</li>
+                <li>Use all core tracking features</li>
+            </ul>
+        </div>
+
+        <button class="retry-btn" onclick="checkConnection()">
+            <span id="retry-text">🔄 Try Again</span>
+        </button>
+        
+        <a href="/" class="home-btn">
+            🏠 Go to Dashboard
+        </a>
+
+        <div id="status" class="status hidden">
+            <div class="spinner"></div>
+            Checking connection...
+        </div>
+    </div>
+
+    <script>
+        let isChecking = false;
+
+        async function checkConnection() {
+            if (isChecking) return;
+            
+            isChecking = true;
+            const retryBtn = document.querySelector('.retry-btn');
+            const status = document.getElementById('status');
+            const retryText = document.getElementById('retry-text');
+            
+            // Show loading state
+            retryText.textContent = '⏳ Checking...';
+            retryBtn.disabled = true;
+            status.classList.remove('hidden');
+            
+            try {
+                // Try to fetch a small resource
+                const response = await fetch('/', { 
+                    method: 'HEAD',
+                    cache: 'no-cache'
+                });
+                
+                if (response.ok) {
+                    // Connection restored
+                    status.innerHTML = '✅ Connection restored! Redirecting...';
+                    status.style.background = '#d1fae5';
+                    status.style.borderColor = '#10b981';
+                    status.style.color = '#065f46';
+                    
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    throw new Error('Connection failed');
+                }
+            } catch (error) {
+                // Still offline
+                retryText.textContent = '🔄 Try Again';
+                retryBtn.disabled = false;
+                status.innerHTML = '❌ Still offline. Check your internet connection.';
+                status.style.background = '#fee2e2';
+                status.style.borderColor = '#ef4444';
+                status.style.color = '#991b1b';
+                
+                setTimeout(() => {
+                    status.classList.add('hidden');
+                }, 3000);
+            }
+            
+            isChecking = false;
+        }
+
+        // Auto-check connection every 30 seconds
+        setInterval(() => {
+            if (!isChecking && navigator.onLine) {
+                checkConnection();
+            }
+        }, 30000);
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            checkConnection();
+        });
+
+        window.addEventListener('offline', () => {
+            const status = document.getElementById('status');
+            status.innerHTML = '📱 You\'re now offline. Some features may be limited.';
+            status.style.background = '#fef3c7';
+            status.style.borderColor = '#f59e0b';
+            status.style.color = '#92400e';
+            status.classList.remove('hidden');
+            
+            setTimeout(() => {
+                status.classList.add('hidden');
+            }, 5000);
+        });
+
+        // Service worker registration for offline functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('SW registered:', registration);
+                })
+                .catch(error => {
+                    console.log('SW registration failed:', error);
+                });
+        }
+    </script>
+</body>
+</html>
