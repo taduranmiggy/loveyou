@@ -1,5 +1,5 @@
-import { expect, describe, it } from 'vitest';
-import { sanitizeInput, validateAndSanitize } from './sanitization';
+import { expect, describe, it, vi } from 'vitest';
+import { sanitizeInput, validateAndSanitize } from '../src/utils/sanitization';
 
 describe('Sanitization', () => {
   describe('sanitizeInput', () => {
