@@ -103,7 +103,7 @@ export class LocalStorageService {
   
   async createUser(userData) {
     try {
-      const users = JSON.parse(localStorage.getItem('milady_users') || '[]');
+      const users = JSON.parse(localStorage.getItem('loveyou_users') || '[]');
       
       // Check if email already exists
       if (users.find(u => u.email === userData.email)) {
@@ -115,12 +115,13 @@ export class LocalStorageService {
       const capybaraName = capybaraNames[Math.floor(Math.random() * capybaraNames.length)];
       
       // Check if this is an admin email
-      const isAdmin = userData.email === 'johnmigueltaduran09@gmail.com' || userData.email === 'admin@milady.com';
+      const isAdmin = userData.email === 'johnmigueltaduran09@gmail.com' || userData.email === 'admin@loveyou.com';
       
       const newUser = {
         id: this.generateId(),
         email: userData.email,
-        password: userData.password, // In real app, this would be hashed
+        password: userData.password,
+        name: userData.nickname,
         nickname: userData.nickname,
         age: userData.age,
         pillType: userData.pillType,
@@ -134,10 +135,11 @@ export class LocalStorageService {
       };
       
       users.push(newUser);
-      localStorage.setItem('milady_users', JSON.stringify(users));
+      localStorage.setItem('loveyou_users', JSON.stringify(users));
       
       // Set current user
-      localStorage.setItem('milady_current_user', JSON.stringify(newUser));
+      localStorage.setItem('loveyou_user', JSON.stringify(newUser));
+      localStorage.setItem('loveyou_token', 'mock-token-' + Date.now());
       
       return { 
         success: true, 
@@ -152,7 +154,7 @@ export class LocalStorageService {
   
   async getUserByEmail(email) {
     try {
-      const users = JSON.parse(localStorage.getItem('milady_users') || '[]');
+      const users = JSON.parse(localStorage.getItem('loveyou_users') || '[]');
       const user = users.find(u => u.email === email);
       
       if (user) {
@@ -171,7 +173,8 @@ export class LocalStorageService {
       
       if (result.success && result.user.password === password) {
         // Set current user
-        localStorage.setItem('milady_current_user', JSON.stringify(result.user));
+        localStorage.setItem('loveyou_user', JSON.stringify(result.user));
+        localStorage.setItem('loveyou_token', 'mock-token-' + Date.now());
         return { success: true, user: result.user };
       } else {
         return { success: false, error: 'Invalid credentials' };
@@ -183,7 +186,7 @@ export class LocalStorageService {
   
   async getCurrentUser() {
     try {
-      const currentUser = JSON.parse(localStorage.getItem('milady_current_user') || 'null');
+      const currentUser = JSON.parse(localStorage.getItem('loveyou_user') || 'null');
       
       if (currentUser) {
         return { success: true, user: currentUser };
@@ -226,7 +229,8 @@ export class LocalStorageService {
   
   async logout() {
     try {
-      localStorage.removeItem('milady_current_user');
+      localStorage.removeItem('loveyou_user');
+      localStorage.removeItem('loveyou_token');
       return { success: true, message: 'Logged out successfully' };
     } catch (error) {
       return { success: false, error: error.message };

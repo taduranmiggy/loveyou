@@ -5,7 +5,7 @@ async function createDatabase() {
   let connection;
   
   try {
-    console.log('🌸 Creating Milady database...');
+    console.log('💕 Creating LoveYou database...');
     
     // Connect to MySQL without specifying database
     connection = await mysql.createConnection({
@@ -18,8 +18,8 @@ async function createDatabase() {
     console.log('✅ Connected to MySQL server');
 
     // Create database
-    await connection.execute(`CREATE DATABASE IF NOT EXISTS milady_tracker`);
-    console.log('✅ Database "milady_tracker" created successfully');
+    await connection.execute(`CREATE DATABASE IF NOT EXISTS loveyou`);
+    console.log('✅ Database "loveyou" created successfully');
 
     console.log('🎉 Database setup complete!');
     console.log('📝 You can now run: npm start');

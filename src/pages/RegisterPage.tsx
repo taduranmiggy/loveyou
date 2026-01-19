@@ -32,11 +32,11 @@ const RegisterPage = () => {
 
     try {
       const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-      const success = await register(formData.email, formData.password, fullName);
-      if (success) {
+      const result = await register(formData.email, formData.password, fullName);
+      if (result.success) {
         navigate('/onboarding');
       } else {
-        setError('Registration failed. Please try again.');
+        setError(result.error || 'Registration failed. Please try again.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

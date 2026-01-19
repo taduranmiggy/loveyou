@@ -96,12 +96,12 @@ const AboutPage = () => {
               <h1 id="about-heading" className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
                 Made with love for{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">
-                  Lady Diane Casilang
+                  
                 </span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 LoveYou was created with love and dedication to help one special person - 
-                Lady Diane Casilang - overcome her pill management challenges. What started 
+                overcome her pill management challenges. What started 
                 as a personal solution became a beautiful app designed to empower women 
                 everywhere in their wellness journey.
               </p>
@@ -127,7 +127,7 @@ const AboutPage = () => {
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
                   LoveYou was born from love and the desire to care for someone special. 
-                  This app was created specifically for Lady Diane Casilang, who struggled 
+                  This app was created specifically for someone who struggled 
                   with pill time management despite her best efforts.
                 </p>
                 <p>
@@ -144,7 +144,7 @@ const AboutPage = () => {
                 </p>
                 <div className="mt-6 p-4 bg-pink-50 border-l-4 border-pink-300 rounded-r-lg">
                   <p className="text-pink-800 font-medium italic">
-                    "Dedicated with endless love to Lady Diane Casilang - 
+                    "Dedicated with endless love - 
                     may this app make your daily routine a little easier and 
                     your wellness journey a little brighter. 💕"
                   </p>
@@ -165,7 +165,7 @@ const AboutPage = () => {
                     <div className="text-6xl mb-4">�</div>
                     <h3 className="text-xl font-semibold text-gray-900">Our Heart</h3>
                     <p className="text-gray-600">
-                      Born from love and dedication to Lady Diane Casilang, LoveYou transforms
+                      Born from love and dedication, LoveYou transforms
                       pill management from a daily struggle into a beautiful, mindful ritual
                       of self-care and wellness.
                     </p>
@@ -308,7 +308,7 @@ const AboutPage = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-pink-100 via-rose-100 to-pink-100 rounded-3xl opacity-60"></div>
               <div className="relative bg-white pinky-accent-bg border-2 border-pink-200 rounded-3xl p-8 shadow-xl">
-                {/* Capybara images for Lady Diane */}
+                {/* Capybara images */}
                 <div className="flex justify-center items-center gap-4 mb-6">
                   <img src="/flowercapy.png" alt="Flower capybara for Diane" className="w-16 h-16 object-contain animate-bounce" style={{ animationDelay: '0s' }} />
                   <div className="text-6xl">💖</div>
@@ -319,7 +319,7 @@ const AboutPage = () => {
                 </h2>
                 <div className="space-y-4 text-gray-700">
                   <p className="text-lg italic">
-                    "To my dearest Lady Diane Casilang,"
+                    "To my dearest,"
                   </p>
                   <p>
                     This app was born from watching you struggle with pill timing and wanting 
@@ -356,7 +356,7 @@ const AboutPage = () => {
                 Ready to start your wellness journey?
               </h2>
               <p className="text-xl text-pink-100 max-w-2xl mx-auto">
-                Join Lady Diane and countless other women who've made their pill routine 
+                Join countless other women who've made their pill routine 
                 effortless and beautiful with LoveYou.
               </p>
             </div>

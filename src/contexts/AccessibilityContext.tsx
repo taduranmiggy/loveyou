@@ -89,17 +89,17 @@ export const AccessibilityProvider = ({ children }: AccessibilityProviderProps) 
       body.classList.remove('high-contrast');
     }
 
-    // Reduced motion
+    // Reduced motion (on root for global effect)
     if (settings.reducedMotion) {
       root.classList.add('reduce-motion');
     } else {
       root.classList.remove('reduce-motion');
     }
 
-    // Color blind mode
-    root.classList.remove('protanopia', 'deuteranopia', 'tritanopia');
+    // Color blind mode (on body for filter effect)
+    body.classList.remove('protanopia', 'deuteranopia', 'tritanopia');
     if (settings.colorBlindMode !== 'none') {
-      root.classList.add(settings.colorBlindMode);
+      body.classList.add(settings.colorBlindMode);
     }
   }, [settings]);
 

@@ -159,18 +159,21 @@ const AccessibilityToolbar = () => {
                       High Contrast
                     </label>
                     <button
-                      className={`w-12 h-6 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 ${
-                        settings.highContrast ? 'bg-white' : 'bg-gray-300'
+                      className={`relative w-14 h-7 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 ${
+                        settings.highContrast 
+                          ? 'bg-pink-500' 
+                          : settings.highContrast ? 'bg-gray-600' : 'bg-gray-300'
                       }`}
                       onClick={toggleHighContrast}
                       aria-pressed={settings.highContrast}
                       aria-label={`High contrast mode ${settings.highContrast ? 'enabled' : 'disabled'}`}
                     >
-                      <div className={`w-5 h-5 rounded-full transition-transform ${
-                        settings.highContrast 
-                          ? 'translate-x-6 bg-black' 
-                          : 'translate-x-0.5 bg-white'
-                      }`} />
+                      <span 
+                        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-200 ${
+                          settings.highContrast ? 'translate-x-7' : 'translate-x-0'
+                        }`} 
+                      />
+                      <span className="sr-only">{settings.highContrast ? 'On' : 'Off'}</span>
                     </button>
                   </div>
 
@@ -239,16 +242,19 @@ const AccessibilityToolbar = () => {
                       Voice Announcements
                     </label>
                     <button
-                      className={`w-12 h-6 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+                      className={`relative w-14 h-7 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 ${
                         settings.voiceAnnouncements ? 'bg-pink-500' : 'bg-gray-300'
                       }`}
                       onClick={toggleVoiceAnnouncements}
                       aria-pressed={settings.voiceAnnouncements}
                       aria-label={`Voice announcements ${settings.voiceAnnouncements ? 'enabled' : 'disabled'}`}
                     >
-                      <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                        settings.voiceAnnouncements ? 'translate-x-6' : 'translate-x-0.5'
-                      }`} />
+                      <span 
+                        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-200 ${
+                          settings.voiceAnnouncements ? 'translate-x-7' : 'translate-x-0'
+                        }`} 
+                      />
+                      <span className="sr-only">{settings.voiceAnnouncements ? 'On' : 'Off'}</span>
                     </button>
                   </div>
 
@@ -264,22 +270,49 @@ const AccessibilityToolbar = () => {
                       Reduce Motion
                     </label>
                     <button
-                      className={`w-12 h-6 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+                      className={`relative w-14 h-7 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 ${
                         settings.reducedMotion ? 'bg-pink-500' : 'bg-gray-300'
                       }`}
                       onClick={toggleReducedMotion}
                       aria-pressed={settings.reducedMotion}
                       aria-label={`Reduced motion ${settings.reducedMotion ? 'enabled' : 'disabled'}`}
                     >
-                      <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                        settings.reducedMotion ? 'translate-x-6' : 'translate-x-0.5'
-                      }`} />
+                      <span 
+                        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-200 ${
+                          settings.reducedMotion ? 'translate-x-7' : 'translate-x-0'
+                        }`} 
+                      />
+                      <span className="sr-only">{settings.reducedMotion ? 'On' : 'Off'}</span>
                     </button>
                   </div>
                 </div>
 
+                {/* Reset Button */}
+                <div className="pt-4 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      const defaultSettings = {
+                        highContrast: false,
+                        fontSize: 'normal' as const,
+                        voiceAnnouncements: false,
+                        reducedMotion: false,
+                        colorBlindMode: 'none' as const
+                      };
+                      updateSettings(defaultSettings);
+                      announceText('All settings reset to defaults');
+                    }}
+                    className={`w-full py-2 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+                      settings.highContrast
+                        ? 'bg-gray-800 text-white hover:bg-gray-700'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    🔄 Reset to Defaults
+                  </button>
+                </div>
+
                 {/* Help Text */}
-                <div className={`text-xs p-3 rounded-md ${
+                <div className={`text-xs p-3 rounded-md mt-4 ${
                   settings.highContrast ? 'bg-gray-800' : 'bg-pink-50'
                 }`}>
                   <p className="mb-1">💡 <strong>Tip:</strong> Use Alt + A to quickly open this panel</p>

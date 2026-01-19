@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Heart, Sparkles } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/Header';
 import NotificationRenderer from './components/NotificationRenderer';
@@ -41,13 +42,14 @@ function App() {
       };
 
   return (
-    <AccessibilityProvider>
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
-            <Header />
-            
-            <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <ErrorBoundary>
+      <AccessibilityProvider>
+        <AuthProvider>
+          <Router>
+            <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
+              <Header />
+              
+              <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
               <motion.div
                 className="absolute top-20 left-10 text-pink-200 opacity-60"
                 {...rotatingAnimation}
@@ -137,6 +139,7 @@ function App() {
         </Router>
       </AuthProvider>
     </AccessibilityProvider>
+    </ErrorBoundary>
   );
 }
 

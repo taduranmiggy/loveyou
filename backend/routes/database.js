@@ -196,7 +196,7 @@ router.get('/schema', async (req, res) => {
     const tables = await sequelize.query(
       "SELECT table_name FROM information_schema.tables WHERE table_schema = ?",
       {
-        replacements: [process.env.DB_NAME || 'milady_tracker'],
+        replacements: [process.env.DB_NAME || 'loveyou'],
         type: sequelize.QueryTypes.SELECT
       }
     );
@@ -209,7 +209,7 @@ router.get('/schema', async (req, res) => {
          FROM information_schema.columns 
          WHERE table_schema = ? AND table_name = ?`,
         {
-          replacements: [process.env.DB_NAME || 'milady_tracker', table.table_name],
+          replacements: [process.env.DB_NAME || 'loveyou', table.table_name],
           type: sequelize.QueryTypes.SELECT
         }
       );

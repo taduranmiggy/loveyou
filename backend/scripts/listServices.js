@@ -78,7 +78,7 @@ services.forEach(service => {
 console.log('\n🔧 Service Configuration:');
 console.log('═'.repeat(20));
 console.log('  • Server Port: 3001');
-console.log('  • Database: MySQL (milady_tracker)');
+console.log('  • Database: MySQL (loveyou)');
 console.log('  • Authentication: JWT tokens');
 console.log('  • CORS: Enabled for frontend');
 console.log('  • Rate Limiting: Enabled');

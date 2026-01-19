@@ -29,6 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   disabled,
   className = '',
   children,
+  onClick,
   ...buttonProps
 }, ref) => {
 
@@ -111,6 +112,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     'transform',
     'overflow-hidden',
     'select-none',
+    'pointer-events-auto',
     sizeClasses.padding,
     sizeClasses.text,
     sizeClasses.minHeight,
@@ -182,12 +184,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       initial="initial"
       whileHover="hover"
       whileTap="tap"
-      className="inline-block"
+      className="inline-block pointer-events-auto"
     >
       <button
         ref={ref}
         className={baseClasses}
         disabled={isDisabled}
+        onClick={onClick}
         {...buttonProps}
       >
       {/* Shimmer effect */}

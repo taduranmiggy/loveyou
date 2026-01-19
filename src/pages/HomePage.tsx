@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { 
   ArrowRight,
   PlayCircle,
@@ -14,7 +15,16 @@ import {
 import Button from '../components/Button';
 
 const HomePage = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [showDemoModal, setShowDemoModal] = useState(false);
+
+  // Redirect to dashboard if user is logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleWatchDemo = () => {
     setShowDemoModal(true);
@@ -24,11 +34,16 @@ const HomePage = () => {
     setShowDemoModal(false);
   };
 
+  // Don't show landing page if user is logged in
+  if (user) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100">
       {/* Floating Decorative Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Floating Capybaras for Lady Diane */}
+        {/* Floating Capybaras */}
         <div className="absolute top-20 left-10 float-animation">
           <img src="/cutesycapy.png" alt="Floating cute capybara" className="w-12 h-12 opacity-70" />
         </div>
@@ -95,7 +110,7 @@ const HomePage = () => {
                 <div className="relative">
                   <img 
                     src="/welcomecapybara.png" 
-                    alt="Lady Diane's capybara friend" 
+                    alt="Capybara mascot" 
                     className="w-32 h-32 object-contain drop-shadow-2xl"
                   />
                   <div className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs px-2 py-1 rounded-full animate-bounce">

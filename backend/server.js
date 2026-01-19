@@ -109,17 +109,15 @@ const startServer = async () => {
     // Test database connection
     await testConnection();
     
-    // Sync database (in development)
-    if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync({ alter: true });
-      console.log('📦 Database synchronized');
-    }
+    // Don't sync - use migrations instead
+    // Database schema is managed by sequelize-cli migrations
+    console.log('📦 Database connected (using migrations for schema)');
     
     // Start server
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
+      console.log(`🔗 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5176'}`);
       console.log(`🏥 Health check: http://localhost:${PORT}/health`);
     });
   } catch (error) {

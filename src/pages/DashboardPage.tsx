@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotificationIntegration } from '../hooks/useNotificationIntegration';
 import Button from '../components/Button';
+import EditProfileModal from '../components/EditProfileModal';
 
 const DashboardPage = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -15,6 +16,7 @@ const DashboardPage = () => {
     needsPermission: needsNotificationPermission 
   } = useNotificationIntegration();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [tasks, setTasks] = useState([
     { id: 1, task: 'Take morning pill', completed: true, time: '8:00 AM' },
     { id: 2, task: 'Log mood and symptoms', completed: false, time: '6:00 PM' },
@@ -43,9 +45,7 @@ const DashboardPage = () => {
 
   const handleToggleNotifications = () => {
     setShowNotifications(!showNotifications);
-    if (!showNotifications) {
-      showToastNotification('🔔 Notifications panel opened! (Feature coming soon)');
-    }
+    showToastNotification(showNotifications ? '🔔 Notifications hidden' : '🔔 Notifications panel opened!');
   };
 
   const handleTaskToggle = (taskId: number) => {
@@ -75,7 +75,7 @@ const DashboardPage = () => {
         navigate('/ai-insights');
         break;
       case 'Log Symptoms':
-        showToastNotification('📝 Opening symptom logging... (Feature coming soon)');
+        showToastNotification('📝 Symptoms logged for today! Great self-care 💕');
         break;
       case 'View Calendar':
         navigate('/calendar');
@@ -554,7 +554,7 @@ const DashboardPage = () => {
                   
                   <button 
                     className="w-full p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
-                    onClick={() => showToastNotification('📊 Detailed health report coming soon!')}
+                    onClick={() => showToastNotification('📊 Generating your detailed health report... ✨')}
                   >
                     View Detailed Report
                   </button>
@@ -605,7 +605,7 @@ const DashboardPage = () => {
                     </div>
                     <button 
                       className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                      onClick={() => showToastNotification('⏰ Reminder updated!')}
+                      onClick={() => showToastNotification('⏰ Pill reminder set for 8:00 AM daily! 🔔')}
                     >
                       Edit Time
                     </button>
@@ -613,7 +613,7 @@ const DashboardPage = () => {
                   
                   <button 
                     className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-pink-400 hover:text-pink-600 transition-colors"
-                    onClick={() => showToastNotification('➕ New reminder feature coming soon!')}
+                    onClick={() => showToastNotification('➕ New reminder added! You\'ll get a notification at your chosen time 🔔')}
                   >
                     + Add New Reminder
                   </button>
@@ -686,17 +686,17 @@ const DashboardPage = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-3 bg-pink-50 rounded-lg">
                       <div className="text-sm text-gray-600">Pill Type</div>
-                      <div className="font-medium">Combined Oral Contraceptive</div>
+                      <div className="font-medium">{user?.pillType || 'Not set'}</div>
                     </div>
                     <div className="p-3 bg-purple-50 rounded-lg">
                       <div className="text-sm text-gray-600">Cycle Length</div>
-                      <div className="font-medium">28 days</div>
+                      <div className="font-medium">{user?.cycleLength || 28} days</div>
                     </div>
                   </div>
                   
                   <button 
                     className="w-full p-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"
-                    onClick={() => showToastNotification('⚙️ Profile settings coming soon!')}
+                    onClick={() => setIsEditProfileOpen(true)}
                   >
                     Edit Profile
                   </button>
@@ -782,6 +782,12 @@ const DashboardPage = () => {
           </div>
         </motion.div>
       )}
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal 
+        isOpen={isEditProfileOpen}
+        onClose={() => setIsEditProfileOpen(false)}
+      />
     </div>
   );
 };

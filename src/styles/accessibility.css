@@ -252,6 +252,9 @@ html.text-xl {
 }
 
 /* Reduced Motion */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after,
 .reduce-motion *,
 .reduce-motion *::before,
 .reduce-motion *::after {

@@ -24,6 +24,13 @@ const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 6;
   
+  // Random nickname examples
+  const nicknameExamples = [
+    'Luna', 'Nova', 'Sage', 'River', 'Sky', 'Ember', 'Phoenix', 'Aurora',
+    'Iris', 'Rose', 'Ivy', 'Star', 'Echo', 'Hope', 'Grace', 'Joy'
+  ];
+  const randomExample = nicknameExamples[Math.floor(Math.random() * nicknameExamples.length)];
+  
   const [formData, setFormData] = useState<OnboardingData>({
     nickname: '',
     pillType: '',
@@ -179,7 +186,7 @@ const OnboardingPage = () => {
             
             <Input
               label="What should we call you? 💕"
-              placeholder="Enter your nickname (e.g., Diane, Lady D, etc.)"
+              placeholder={`Enter your nickname (e.g., ${randomExample})`}
               value={formData.nickname}
               onChange={(e) => handleInputChange('nickname', e.target.value)}
               error={errors.nickname}
