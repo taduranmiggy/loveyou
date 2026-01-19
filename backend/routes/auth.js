@@ -83,6 +83,7 @@ router.post('/register', async (req, res) => {
       name: `${user.firstName} ${user.lastName}`.trim(),
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role || 'user',
       hasCompletedOnboarding: false,
       preferences: user.preferences,
     };
@@ -142,6 +143,7 @@ router.post('/login', async (req, res) => {
       name: `${user.firstName} ${user.lastName}`.trim(),
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role || 'user',
       hasCompletedOnboarding: !!user.preferences?.onboarding?.completed,
       onboardingData: user.preferences?.onboarding || null,
       preferences: user.preferences,
@@ -179,6 +181,7 @@ router.get('/me', authenticateToken, async (req, res) => {
       name: `${req.user.firstName} ${req.user.lastName}`.trim(),
       firstName: req.user.firstName,
       lastName: req.user.lastName,
+      role: req.user.role || 'user',
       hasCompletedOnboarding: !!req.user.preferences?.onboarding?.completed,
       onboardingData: req.user.preferences?.onboarding || null,
       preferences: req.user.preferences,

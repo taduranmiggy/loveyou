@@ -76,6 +76,11 @@ const User = sequelize.define('User', {
     defaultValue: true,
     field: 'is_active',
   },
+  role: {
+    type: DataTypes.ENUM('admin', 'user', 'viewer'),
+    defaultValue: 'user',
+    allowNull: false,
+  },
 }, {
   tableName: 'users',
   indexes: [

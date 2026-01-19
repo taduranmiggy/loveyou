@@ -10,6 +10,7 @@ export interface User {
   nickname?: string;
   pillType?: string;
   cycleLength?: number;
+  role: 'admin' | 'user' | 'viewer';
   hasCompletedOnboarding: boolean;
   onboardingData?: OnboardingData;
   preferences?: UserPreferences;
