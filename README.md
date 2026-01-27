@@ -1,8 +1,3 @@
-# 🦫💕 Milady - Contraceptive Pill Tracker
-
-A cute and user-friendly contraceptive pill tracker featuring an adorable capybara mascot! Built with React and PHP, designed with love in pink! 🌸
-
-![Milady Banner](https://via.placeholder.com/800x200/ec4899/ffffff?text=Milady+💕+Pill+Tracker+🦫)
 
 ## ✨ Features
 
